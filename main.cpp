@@ -97,52 +97,42 @@ void gamer(int column , int user){
 	
 	when 1 was returned the game should be over!
 */
-bool isWon(int row , int col){//  row 1  col 5
-	int val = board[row][col]; //1
-	int winHor=1, winVer=1, winDiag1=1, winDiag2=1;
-	
-	if(val == 0) // the element is empty
-		return 0;
-	//check the right side
-	int i = col;
-	while(i<y){
-	   if(board[row][i+1] == val)
-	        winHor++;
-	   else
-	        break;
-	   i++;
-	}
-	//check left side
-	i=col;
-	while(i>0){
-	   if(board[row][i-1] == val)
-	        winHor++;
-	   else
-	        break;
-	   i--;
-	}
-	if(winHor>3) return 1;
-	
-	//check the top
-	i = row;
-	while(i<7){
-	   if(board[i+1][col] == val)
-	        winVer++;
-	   else
-	        break;
-	   i++;
-	}
+bool isWon(int row, int col) {
+    int val = board[row][col];
+    if (val == 0) return 0;
 
-	if(winVer>3) return 1;
-	
-	//check Diag1 User Story 1
-	
-	//check Diag2 User Story 2
-	
+    int winHor = 1, winVer = 1, winDiag1 = 1, winDiag2 = 1;
+    int i, j;
 
-	
-	return 0; //none of above!
+    // Horizontal check
+    i = col;
+    while (i < y - 1 && board[row][i + 1] == val) { winHor++; i++; }
+    i = col;
+    while (i > 0 && board[row][i - 1] == val) { winHor++; i--; }
+    if (winHor >= 4) return 1;
+
+    // Vertical check
+    i = row;
+    while (i < x - 1 && board[i + 1][col] == val) { winVer++; i++; }
+    if (winVer >= 4) return 1;
+
+    // Diagonal ↘ check (top-left to bottom-right)
+    i = row; j = col;
+    while (i < x - 1 && j < y - 1 && board[i + 1][j + 1] == val) { winDiag1++; i++; j++; }
+    i = row; j = col;
+    while (i > 1 && j > 0 && board[i - 1][j - 1] == val) { winDiag1++; i--; j--; }
+    if (winDiag1 >= 4) return 1;
+
+    // Diagonal ↙ check (top-right to bottom-left)
+    i = row; j = col;
+    while (i < x - 1 && j > 0 && board[i + 1][j - 1] == val) { winDiag2++; i++; j--; }
+    i = row; j = col;
+    while (i > 1 && j < y - 1 && board[i - 1][j + 1] == val) { winDiag2++; i--; j++; }
+    if (winDiag2 >= 4) return 1;
+
+    return 0;
 }
+
 /* end() is the announcer of the result
 	at the the end of the game.
 	it gets a parameter c and 
