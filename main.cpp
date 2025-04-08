@@ -98,39 +98,81 @@ void gamer(int column , int user){
 	when 1 was returned the game should be over!
 */
 bool isWon(int row, int col) {
-    int val = board[row][col];
-    if (val == 0) return 0;
+	int val = board[row][col];
+	if (val == 0) return 0;
 
-    int winHor = 1, winVer = 1, winDiag1 = 1, winDiag2 = 1;
-    int i, j;
+	int winHor = 1, winVer = 1, winDiag1 = 1, winDiag2 = 1;
+	int i, j;
 
-    // Horizontal check
-    i = col;
-    while (i < y - 1 && board[row][i + 1] == val) { winHor++; i++; }
-    i = col;
-    while (i > 0 && board[row][i - 1] == val) { winHor++; i--; }
-    if (winHor >= 4) return 1;
+	// Horizontal (left and right)
+	i = col;
+	while (i < y - 1) {
+		if (board[row][i + 1] == val)
+			winHor++;
+		else
+			break;
+		i++;
+	}
+	i = col;
+	while (i > 0) {
+		if (board[row][i - 1] == val)
+			winHor++;
+		else
+			break;
+		i--;
+	}
+	if (winHor >= 4) return 1;
 
-    // Vertical check
-    i = row;
-    while (i < x - 1 && board[i + 1][col] == val) { winVer++; i++; }
-    if (winVer >= 4) return 1;
+	// Vertical (down only)
+	i = row;
+	while (i < x - 1) {
+		if (board[i + 1][col] == val)
+			winVer++;
+		else
+			break;
+		i++;
+	}
+	if (winVer >= 4) return 1;
 
-    // Diagonal ↘ check (top-left to bottom-right)
-    i = row; j = col;
-    while (i < x - 1 && j < y - 1 && board[i + 1][j + 1] == val) { winDiag1++; i++; j++; }
-    i = row; j = col;
-    while (i > 1 && j > 0 && board[i - 1][j - 1] == val) { winDiag1++; i--; j--; }
-    if (winDiag1 >= 4) return 1;
+	// Diagonal ↘ (top-left to bottom-right)
+	i = row; j = col;
+	while (i < x - 1 && j < y - 1) {
+		if (board[i + 1][j + 1] == val)
+			winDiag1++;
+		else
+			break;
+		i++; j++;
+	}
+	i = row; j = col;
+	while (i > 1 && j > 0) {
+		if (board[i - 1][j - 1] == val)
+			winDiag1++;
+		else
+			break;
+		i--; j--;
+	}
+	if (winDiag1 >= 4) return 1;
 
-    // Diagonal ↙ check (top-right to bottom-left)
-    i = row; j = col;
-    while (i < x - 1 && j > 0 && board[i + 1][j - 1] == val) { winDiag2++; i++; j--; }
-    i = row; j = col;
-    while (i > 1 && j < y - 1 && board[i - 1][j + 1] == val) { winDiag2++; i--; j++; }
-    if (winDiag2 >= 4) return 1;
+	// Diagonal ↙ (top-right to bottom-left)
+	i = row; j = col;
+	while (i < x - 1 && j > 0) {
+		if (board[i + 1][j - 1] == val)
+			winDiag2++;
+		else
+			break;
+		i++; j--;
+	}
+	i = row; j = col;
+	while (i > 1 && j < y - 1) {
+		if (board[i - 1][j + 1] == val)
+			winDiag2++;
+		else
+			break;
+		i--; j++;
+	}
+	if (winDiag2 >= 4) return 1;
 
-    return 0;
+	return 0;
 }
 
 /* end() is the announcer of the result
